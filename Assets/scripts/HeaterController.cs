@@ -6,6 +6,7 @@ using UnityEngine.Networking;
 public class HeaterController : MonoBehaviour
 {
     public string plugID = "";
+    public bool isBigTower = false;
 
 
     private void OnDestroy()
@@ -59,41 +60,53 @@ public class HeaterController : MonoBehaviour
         string turnUrl =
             $"{HomeAssistantSettings.Address}/api/services/switch/{(isOn ? "turn_on" : "turn_off")}";
 
-        string json =
-            $"{{\"entity_id\":\"{plugID}\"}}";
+        string json = $"{{\"entity_id\":\"{plugID}\"}}";
+        byte[] body = Encoding.UTF8.GetBytes(json);
 
-        byte[] body =
-            Encoding.UTF8.GetBytes(json);
+        UnityWebRequest request = new UnityWebRequest(turnUrl, "POST");
+        request.uploadHandler = new UploadHandlerRaw(body);
+        request.downloadHandler = new DownloadHandlerBuffer();
 
-        UnityWebRequest request =
-            new UnityWebRequest(turnUrl, "POST");
-
-        request.uploadHandler =
-            new UploadHandlerRaw(body);
-
-        request.downloadHandler =
-            new DownloadHandlerBuffer();
-
-        request.SetRequestHeader(
-            "Content-Type",
-            "application/json"
-        );
-
-        request.SetRequestHeader(
-            "Authorization",
-            $"Bearer {HomeAssistantSettings.Token}"
-        );
+        request.SetRequestHeader("Content-Type", "application/json");
+        request.SetRequestHeader("Authorization", $"Bearer {HomeAssistantSettings.Token}");
 
         yield return request.SendWebRequest();
 
         if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log($"Switch turned {(isOn ? "on" : "off")}");
+            if (isOn && isBigTower)
+            {
+                yield return new WaitForSeconds(0.05f);
+                yield return SendEspToggleRequest();
+            }
         }
         else
         {
             Debug.LogError(request.error);
             Debug.LogError(request.downloadHandler.text);
+        }
+    }
+    private IEnumerator SendEspToggleRequest()
+    {
+        string url = $"{HomeAssistantSettings.RemoteAddr}/toggle";
+        byte[] body = Encoding.UTF8.GetBytes("{}");
+
+        UnityWebRequest request = new UnityWebRequest(url, "POST");
+        request.uploadHandler = new UploadHandlerRaw(body);
+        request.downloadHandler = new DownloadHandlerBuffer();
+
+        request.SetRequestHeader("Content-Type", "application/json");
+
+        yield return request.SendWebRequest();
+
+        if (request.result == UnityWebRequest.Result.Success)
+        {
+            Debug.Log("ESP toggle sent (3x pulse)");
+        }
+        else
+        {
+            Debug.LogError("ESP request failed: " + request.error);
         }
     }
 }

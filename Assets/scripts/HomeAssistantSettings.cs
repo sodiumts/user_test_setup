@@ -5,6 +5,7 @@ public static class HomeAssistantSettings
 {
     public static string Address;
     public static string Token;
+    public static string RemoteAddr;
 
     private static bool loaded = false;
 
@@ -40,9 +41,13 @@ public static class HomeAssistantSettings
                 case "HOME_ASSISTANT_TOKEN":
                     Token = value;
                     break;
+                case "REMOTE_IP":
+                    RemoteAddr = value;
+                    break;
             }
         }
 
         loaded = true;
     }
+    
 }
