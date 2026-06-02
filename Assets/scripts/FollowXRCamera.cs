@@ -2,7 +2,7 @@ using UnityEngine;
 
 public class FollowXRCamera : MonoBehaviour
 {
-    [SerializeField] private CharacterController characterController;
+    [SerializeField] private CapsuleCollider capsuleCollider;
     [SerializeField] private Transform xrCamera;
     [SerializeField] private Transform xrRig;
 
@@ -27,11 +27,11 @@ public class FollowXRCamera : MonoBehaviour
 
         if (cameraDelta.sqrMagnitude > 0.0001f)
         {
-            characterController.Move(cameraDelta);
+            capsuleCollider.transform.position += cameraDelta;
             xrRig.position -= cameraDelta;
         }
 
-        Vector3 camLocal = xrRig.InverseTransformPoint(xrCamera.position);
-        characterController.center = new Vector3(camLocal.x, characterController.center.y, camLocal.z);
+        Vector3 camLocal = capsuleCollider.transform.InverseTransformPoint(xrCamera.position);
+        capsuleCollider.center = new Vector3(camLocal.x, capsuleCollider.center.y, camLocal.z);
     }
 }
