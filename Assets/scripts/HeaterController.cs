@@ -39,11 +39,13 @@ public class HeaterController : MonoBehaviour
 
     private void OnTriggerEnter(Collider other)
     {
+        Debug.Log("Entered trigger");
         TurnOnHeater();
     }
     
     private void OnTriggerExit(Collider other)
     {
+        Debug.Log("Exit trigger");
         TurnOffHeater();
     }
 
@@ -72,15 +74,20 @@ public class HeaterController : MonoBehaviour
         request.SetRequestHeader("Content-Type", "application/json");
         request.SetRequestHeader("Authorization", $"Bearer {HomeAssistantSettings.Token}");
 
+        Debug.Log("Sent homeassistant request");
+
         yield return request.SendWebRequest();
+        
+        Debug.Log("Finished Send homeassistant request");
 
         if (request.result == UnityWebRequest.Result.Success)
         {
             Debug.Log($"Switch turned {(isOn ? "on" : "off")}");
             if (isOn && isBigTower)
             {
+                Debug.Log("Sending IR request");
                 yield return new WaitForSeconds(0.05f);
-                yield return SendEspToggleRequest();
+                yield return SendEspToggleRequest(); 
             }
         }
         else
@@ -100,7 +107,9 @@ public class HeaterController : MonoBehaviour
 
         request.SetRequestHeader("Content-Type", "application/json");
 
+        Debug.Log("Sending IR request");
         yield return request.SendWebRequest();
+        Debug.Log("Sent IR request");
 
         if (request.result == UnityWebRequest.Result.Success)
         {
