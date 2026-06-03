@@ -590,6 +590,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeaterController
   plugID: switch.shellyplusplugs_b48a0a1c5424
   isBigTower: 1
+  irIP: http://192.168.88.21
 --- !u!65 &753189446
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -1041,6 +1042,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeaterController
   plugID: switch.shellyplusplugs_80646fcf3614
   isBigTower: 1
+  irIP: http://192.168.88.32
 --- !u!1001 &1773707336
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1365,6 +1367,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeaterController
   plugID: switch.shellyplusplugs_80646fd0416c_optitrack
   isBigTower: 0
+  irIP: 
 --- !u!1 &1845108170 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: -5312816722611764471, guid: 9c5445c086b47911383f213985185332, type: 3}

@@ -7,6 +7,8 @@ public class HeaterController : MonoBehaviour
 {
     public string plugID = "";
     public bool isBigTower = false;
+    
+    public string irIP = "";
 
 
     private void OnDestroy()
@@ -89,7 +91,7 @@ public class HeaterController : MonoBehaviour
     }
     private IEnumerator SendEspToggleRequest()
     {
-        string url = $"{HomeAssistantSettings.RemoteAddr}/toggle";
+        string url = $"{irIP}/toggle";
         byte[] body = Encoding.UTF8.GetBytes("{}");
 
         UnityWebRequest request = new UnityWebRequest(url, "POST");
