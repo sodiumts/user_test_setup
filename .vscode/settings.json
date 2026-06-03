@@ -67,6 +67,6 @@
         "*.sln": "*.csproj",
         "*.slnx": "*.csproj"
     },
-    "dotnet.defaultSolution": "My project.slnx",
+    "dotnet.defaultSolution": "user_test_setup.slnx",
     "dotnet.enableWorkspaceBasedDevelopment": false
 }
