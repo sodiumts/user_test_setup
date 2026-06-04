@@ -1,37 +1,35 @@
 using UnityEngine;
 
-public class FollowXRCamera : MonoBehaviour
+[RequireComponent(typeof(BoxCollider))]
+public class FollowXRCameraTrigger : MonoBehaviour
 {
-    [SerializeField] private CharacterController characterController;
     [SerializeField] private Transform xrCamera;
-    [SerializeField] private Transform xrRig;
 
-    private Vector3 previousCameraPosition;
+    private BoxCollider triggerBox;
 
-    void Start()
+    private void Awake()
     {
-        previousCameraPosition = xrCamera.position;
+        triggerBox = GetComponent<BoxCollider>();
     }
 
-    void Update()
+    private void Update()
     {
-        SyncColliderToCamera();
+        Vector3 localCameraPos = transform.InverseTransformPoint(xrCamera.position);
+
+        triggerBox.center = new Vector3(
+            localCameraPos.x,
+            triggerBox.center.y,
+            localCameraPos.z
+        );
     }
 
-    private void SyncColliderToCamera()
+    private void OnTriggerEnter(Collider other)
     {
-        Vector3 cameraDelta = xrCamera.position - previousCameraPosition;
-        cameraDelta.y = 0;
+        Debug.Log($"Entered {other.name}");
+    }
 
-        previousCameraPosition = xrCamera.position;
-
-        if (cameraDelta.sqrMagnitude > 0.0001f)
-        {
-            characterController.Move(cameraDelta);
-            xrRig.position -= cameraDelta;
-        }
-
-        Vector3 camLocal = xrRig.InverseTransformPoint(xrCamera.position);
-        characterController.center = new Vector3(camLocal.x, characterController.center.y, camLocal.z);
+    private void OnTriggerExit(Collider other)
+    {
+        Debug.Log($"Exited {other.name}");
     }
 }
