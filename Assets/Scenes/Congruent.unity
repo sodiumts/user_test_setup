@@ -564,7 +564,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeaterController
   plugID: switch.shellyplusplugs_b48a0a1c5424
   isBigTower: 1
-  irIP: http://192.168.88.21
+  irIP: http://192.168.88.12
 --- !u!65 &753189446
 BoxCollider:
   m_ObjectHideFlags: 0
@@ -813,8 +813,8 @@ MonoBehaviour:
   m_Camera: {fileID: 541839177}
   m_OriginBaseGameObject: {fileID: 1679536010}
   m_CameraFloorOffsetObject: {fileID: 726175876}
-  m_RequestedTrackingOriginMode: 2
-  m_CameraYOffset: 1.1176
+  m_RequestedTrackingOriginMode: 1
+  m_CameraYOffset: 1.7
 --- !u!4 &1679536014
 Transform:
   m_ObjectHideFlags: 0
@@ -960,7 +960,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: Assembly-CSharp::HeaterController
   plugID: switch.shellyplusplugs_80646fcf3614
   isBigTower: 1
-  irIP: http://192.168.88.32
+  irIP: http://192.168.88.19
 --- !u!1001 &1773707336
 PrefabInstance:
   m_ObjectHideFlags: 0
